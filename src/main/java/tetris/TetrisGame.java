@@ -13,7 +13,12 @@ public class TetrisGame {
     TetrisShapes tetrisShapes = new TetrisShapes();
     Point[][][] tetrisPoints = tetrisShapes.getShapes();
 
-    private final Color[] colorArray = {Color.CYAN, Color.magenta, Color.ORANGE, Color.yellow, Color.black, Color.PINK, Color.red};
+    Color bumblebee = new Color(207, 207, 0);
+    Color darkGreen = new Color(23, 110, 22);
+    Color purple = new Color(76, 5, 158);
+
+    private final Color[] colorArray = {Color.CYAN, Color.magenta, Color.ORANGE, Color.yellow, Color.black, Color.PINK, Color.red,
+            Color.BLUE, Color.GREEN, purple,bumblebee, darkGreen};
 
     private Point point;
     private int currPiece;
@@ -68,7 +73,7 @@ public class TetrisGame {
         point = new Point(1, 2);
         rotation = 0;
         if (nextPiece.isEmpty()) {
-            Collections.addAll(nextPiece, 0, 1, 2, 3);
+            Collections.addAll(nextPiece, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
             Collections.shuffle(nextPiece);
         }
         currPiece = nextPiece.get(0);
