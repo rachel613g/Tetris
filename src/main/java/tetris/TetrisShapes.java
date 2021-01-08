@@ -1,10 +1,12 @@
+package tetris;
+
 import java.awt.*;
 
-public class Shapes {
+public class TetrisShapes {
 
     private Point[][][] pointArray;
 
-    public Shapes(){
+    public TetrisShapes(){
         createShapes();
     }
 
@@ -12,7 +14,7 @@ public class Shapes {
         return pointArray;
     }
     private void createShapes() {
-        pointArray = new Point[][][]{
+        pointArray = new Point[][][]{//[x][y][r]
                 {
                         //J-SHAPE
                         {new Point(0, 1), new Point(1, 1), new Point(2, 1), new Point(2, 0)},
