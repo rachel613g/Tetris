@@ -1,11 +1,11 @@
 package tetris;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.Timer;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
-//resource: https://www.ssaurel.com/blog/learn-to-create-a-tetris-game-in-java-with-swing/
-//resource: https://docs.oracle.com/javase/7/docs/api/javax/swing/Timer.html
 
 public class TetrisFrame extends JFrame {
     private TetrisGame tetris;
@@ -20,43 +20,31 @@ public class TetrisFrame extends JFrame {
         keyListener = tetrisKeyListener;
 
         setUpFrame();
-        addView();
-        addTimer();
         tetris.init();
-    }
-
-    private void addView() {
-        add(view);
+        scheduleDropShape();
     }
 
     private void setUpFrame() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tetris");
-
-        //int frameHeight = (TetrisView.CELL_SIZE * (TetrisGame.HEIGHT - 1)) + TetrisView.BORDER_CELL_SIZE;
-        //int frameWidth = (TetrisView.CELL_SIZE * (TetrisGame.WIDTH - 1)) + TetrisView.BORDER_CELL_SIZE;
-
         setSize(550, 690);
         addKeyListener(keyListener);
+        add(view);
     }
 
-    private void addTimer(){
-        //creds to https://www.ssaurel.com/blog/learn-to-create-a-tetris-game-in-java-with-swing/
-        //for giving idea to use Timer
-        //creds to https://docs.oracle.com/javase/7/docs/api/javax/swing/Timer.html
-        //for the ready-made Timer anonymous instance
+    /**
+     * @scheduler SheduledExecutorService
+     * Java doc: https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ScheduledExecutorService.html
+     * @dropShapeTask Runnable - executed by scheduler repeatedly at given delay interval.
+     */
+    private void scheduleDropShape() {
+        int delay = 500;
+        final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+        final Runnable dropShapeTask = () -> {
+            tetris.drop();
+            view.repaint();
+        };
 
-//        int delay = 500; //milliseconds
-//        ActionListener taskPerformer = new ActionListener() {
-//            public void actionPerformed(ActionEvent evt) {
-//                tetris.drop();
-//                repaint();
-//            }
-//        };
-//        timer = new Timer(delay, null);
-//        timer.setActionCommand(null);
-//        timer.start();
-
+        scheduler.scheduleAtFixedRate(dropShapeTask, delay, delay, TimeUnit.MILLISECONDS);
     }
-
 }
