@@ -11,7 +11,6 @@ public class TetrisFrame extends JFrame {
     private TetrisGame tetris;
     private TetrisView view;
     private TetrisKeyListener keyListener;
-    private Timer timer;
 
     public TetrisFrame(TetrisGame tetrisGame, TetrisView tetrisView, TetrisKeyListener tetrisKeyListener){
         super();
