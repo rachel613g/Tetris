@@ -17,8 +17,8 @@ public class TetrisGame {
     Color darkGreen = new Color(23, 110, 22);
     Color purple = new Color(76, 5, 158);
 
-    private final Color[] colorArray = {Color.CYAN, Color.magenta, Color.ORANGE, Color.yellow, Color.black, Color.PINK, Color.red,
-            Color.BLUE, Color.GREEN, purple,bumblebee, darkGreen};
+    private final Color[] colorArray = {Color.CYAN, Color.magenta, Color.ORANGE, Color.yellow, Color.red,
+            Color.BLUE, Color.GREEN, purple, bumblebee, darkGreen, Color.black, Color.PINK};
 
     private Point point;
     private int currPiece;
@@ -135,7 +135,7 @@ public class TetrisGame {
     public void clearRows() {
         boolean gap;
         int numClear = 0;
-        for (int j = HEIGHT; j > 0; j--) {
+        for (int j = HEIGHT - 3; j > 0; j--) {
             gap = false;
             for (int i = 1; i < WIDTH; i++) {
                 if (board[i][j] == Color.BLACK) {
