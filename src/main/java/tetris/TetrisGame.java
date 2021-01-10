@@ -25,9 +25,9 @@ public class TetrisGame {
     private int rotation;
     private final ArrayList<Integer> nextPiece = new ArrayList<>();
     private int score;
-    public static final int WIDTH = 20;
+    public static final int WIDTH = 13;
     public static final int HEIGHT = 24;
-    private final int RIGHT_BORDER = 19;
+    private final int RIGHT_BORDER = 12;
     private final int BOTTOM_BORDER = 22;
     private final Color[][] board = new Color[WIDTH][HEIGHT];
 
