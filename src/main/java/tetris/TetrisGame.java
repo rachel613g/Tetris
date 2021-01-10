@@ -25,10 +25,10 @@ public class TetrisGame {
     private int rotation;
     private final ArrayList<Integer> nextPiece = new ArrayList<>();
     private int score;
-    private final int WIDTH = 20;
-    private final int HEIGHT = 24;
-    private final int RIGHT_BOARDER = 19;
-    private final int BOTTOM_BOARDER = 22;
+    public static final int WIDTH = 20;
+    public static final int HEIGHT = 24;
+    private final int RIGHT_BORDER = 19;
+    private final int BOTTOM_BORDER = 22;
     private final Color[][] board = new Color[WIDTH][HEIGHT];
 
     public Color[][] getBoard(){
@@ -58,7 +58,7 @@ public class TetrisGame {
     public void init() {
         for (int i = 0; i < WIDTH; i++) {
             for (int j = 0; j < HEIGHT -1; j++) {
-                if (i == 0 || i == RIGHT_BOARDER || j == BOTTOM_BOARDER) {
+                if (i == 0 || i == RIGHT_BORDER || j == BOTTOM_BORDER) {
                     board[i][j] = Color.PINK;
                 } else {
                     board[i][j] = Color.black;
