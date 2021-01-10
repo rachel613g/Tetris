@@ -1,16 +1,15 @@
 package tetris;
 
 import javax.swing.*;
-import java.util.Timer;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 
 public class TetrisFrame extends JFrame {
-    private TetrisGame tetris;
-    private TetrisView view;
-    private TetrisKeyListener keyListener;
+    private final TetrisGame tetris;
+    private final TetrisView view;
+    private final TetrisKeyListener keyListener;
 
     public TetrisFrame(TetrisGame tetrisGame, TetrisView tetrisView, TetrisKeyListener tetrisKeyListener){
         super();
@@ -26,7 +25,7 @@ public class TetrisFrame extends JFrame {
     private void setUpFrame() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tetris");
-        setSize(550, 690);
+        setSize(350, 630);
         addKeyListener(keyListener);
         add(view);
     }
