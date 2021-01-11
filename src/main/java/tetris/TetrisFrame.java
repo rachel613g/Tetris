@@ -31,7 +31,7 @@ public class TetrisFrame extends JFrame {
     }
 
     /**
-     * @scheduler SheduledExecutorService
+     * @scheduler ScheduledExecutorService
      * Java doc: https://docs.oracle.com/javase/7/docs/api/java/util/concurrent/ScheduledExecutorService.html
      * @dropShapeTask Runnable - executed by scheduler repeatedly at given delay interval.
      */
