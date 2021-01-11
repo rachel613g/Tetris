@@ -5,7 +5,7 @@ import java.awt.event.KeyEvent;
 
 public class TetrisKeyListener extends KeyAdapter {
 
-    private final TetrisGame game;
+    private TetrisGame game;
 
     public TetrisKeyListener(TetrisGame game){
         this.game = game;
@@ -34,5 +34,9 @@ public class TetrisKeyListener extends KeyAdapter {
                 break;
         }
         e.getComponent().repaint();
+    }
+
+    public void setTetrisGameInstance(TetrisGame game) {
+       this.game =game;
     }
 }

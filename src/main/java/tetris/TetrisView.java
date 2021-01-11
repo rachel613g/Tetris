@@ -36,4 +36,8 @@ public class TetrisView extends JComponent {
         g.drawString("Score is: " + game.getScore(), 19 * 12, CELL_SIZE);
         drawPiece(g);
     }
+
+    public void setTetrisGameInstance(TetrisGame game){
+        this.game = game;
+    }
 }
