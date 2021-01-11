@@ -13,12 +13,21 @@ public class TetrisGame {
     TetrisShapes tetrisShapes = new TetrisShapes();
     Point[][][] tetrisPoints = tetrisShapes.getShapes();
 
-    Color bumblebee = new Color(207, 207, 0);
-    Color darkGreen = new Color(23, 110, 22);
-    Color purple = new Color(76, 5, 158);
+    Color sunset = new Color(250, 163, 152);
+    Color peach = new Color(250, 221, 152);
+    Color babyYellow = new Color(239, 250, 152);
+    Color mint = new Color(150, 255, 175);
+    Color teal = new Color(152, 250, 224);
+    Color skyBlue = new Color(152, 209, 250);
+    Color babyBlue = new Color(152, 174, 250);
+    Color lightBlue = new Color(74, 180, 255);
+    Color lavender = new Color(183, 152, 250);
+    Color babyPink = new Color(241, 207, 255);
+    Color background = new Color(7, 11, 59);
+    Color border = new Color(1, 12, 138);
 
-    private final Color[] colorArray = {Color.CYAN, Color.magenta, Color.ORANGE, Color.yellow, Color.red,
-            Color.BLUE, Color.GREEN, purple, bumblebee, darkGreen, Color.black, Color.PINK};
+    private final Color[] colorArray = {babyPink, mint, lightBlue, sunset, peach,
+            babyYellow, teal, lavender, skyBlue, babyBlue};
 
     private Point point;
     private int currPiece;
@@ -59,9 +68,9 @@ public class TetrisGame {
         for (int i = 0; i < WIDTH; i++) {
             for (int j = 0; j < HEIGHT -1; j++) {
                 if (i == 0 || i == RIGHT_BORDER || j == BOTTOM_BORDER) {
-                    board[i][j] = Color.PINK;
+                    board[i][j] = border;
                 } else {
-                    board[i][j] = Color.black;
+                    board[i][j] = background;
                 }
             }
         }
@@ -70,7 +79,7 @@ public class TetrisGame {
 
     private void newPiece() {
         //make x and y constants
-        point = new Point(1, 2);
+        point = new Point(6, 1);
         rotation = 0;
         if (nextPiece.isEmpty()) {
             Collections.addAll(nextPiece, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
@@ -82,7 +91,7 @@ public class TetrisGame {
 
     private boolean noCollisionAt(int x, int y, int rotation) {
         for (Point p : tetrisPoints[currPiece][rotation]) {
-            if (board[p.x + x][p.y + y] != Color.black) {
+            if (board[p.x + x][p.y + y] != background) {
                 return false;
             }
         }
@@ -138,7 +147,7 @@ public class TetrisGame {
         for (int j = HEIGHT - 3; j > 0; j--) {
             gap = false;
             for (int i = 1; i < WIDTH; i++) {
-                if (board[i][j] == Color.BLACK) {
+                if (board[i][j] == background) {
                     gap = true;
                     break;
                 }
@@ -154,13 +163,13 @@ public class TetrisGame {
                 score += 100;
                 break;
             case 2:
-                score += 200;
+                score += 350;
                 break;
             case 3:
-                score += 300;
+                score += 600;
                 break;
             case 4:
-                score += 400;
+                score += 800;
                 break;
             default:
                 score += 10;

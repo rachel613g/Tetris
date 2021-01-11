@@ -25,7 +25,7 @@ public class TetrisView extends JComponent {
     }
 
     public void paintComponent(Graphics g) {
-        g.fillRect(0, 0, BORDER_CELL_SIZE * game.getWidth(), BORDER_CELL_SIZE * game.getHeight()-1);
+        g.fillRect(0, 0, BORDER_CELL_SIZE * game.getWidth(), BORDER_CELL_SIZE * (game.getHeight()-1));
         for (int i = 0; i < game.getWidth(); i++) {
             for (int j = 0; j < game.getHeight()-1; j++) {
                 g.setColor(game.getBoard()[i][j]);        //null
