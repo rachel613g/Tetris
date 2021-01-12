@@ -6,9 +6,6 @@ import java.util.Collections;
 
 public class TetrisGame {
 
-    public TetrisGame(){
-
-    }
 
     TetrisShapes tetrisShapes = new TetrisShapes();
     Point[][][] tetrisPoints = tetrisShapes.getShapes();
@@ -40,7 +37,7 @@ public class TetrisGame {
     private final int RIGHT_BORDER = 12;
     private final int BOTTOM_BORDER = 22;
     public static final int INIT_X_POSITION = 6;
-    public static final int INIT_Y_POSITION = 1;
+    public static final int INIT_Y_POSITION = 0;
     private final Color[][] board = new Color[WIDTH][HEIGHT];
 
     public Color[][] getBoard(){
@@ -67,7 +64,13 @@ public class TetrisGame {
         return score;
     }
 
-    public void init() {
+    public void startGame() {
+        if(nextPiece.size() != 0){
+            nextPiece.clear();
+        }
+        if(score != 0){
+            score = 0;
+        }
         for (int i = 0; i < WIDTH; i++) {
             for (int j = 0; j < HEIGHT -1; j++) {
                 if (i == 0 || i == RIGHT_BORDER || j == BOTTOM_BORDER) {
@@ -133,7 +136,7 @@ public class TetrisGame {
         for (Point p : tetrisPoints[currPiece][rotation]) {
             int newX = point.x + p.x;
             int newY = point.y + p.y;
-            if (newY == INIT_Y_POSITION){
+            if (newY == INIT_Y_POSITION + 1) {
                 isGameOver = true;
                 break;
             }
