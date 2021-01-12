@@ -34,10 +34,13 @@ public class TetrisGame {
     private int rotation;
     private final ArrayList<Integer> nextPiece = new ArrayList<>();
     private int score;
+    private boolean isGameOver;
     public static final int WIDTH = 13;
     public static final int HEIGHT = 24;
     private final int RIGHT_BORDER = 12;
     private final int BOTTOM_BORDER = 22;
+    public static final int INIT_X_POSITION = 6;
+    public static final int INIT_Y_POSITION = 1;
     private final Color[][] board = new Color[WIDTH][HEIGHT];
 
     public Color[][] getBoard(){
@@ -75,16 +78,19 @@ public class TetrisGame {
             }
         }
         newPiece();
+        isGameOver = false;
     }
 
     private void newPiece() {
-        //make x and y constants
-        point = new Point(6, 1);
+        point = new Point(INIT_X_POSITION, INIT_Y_POSITION);
         rotation = 0;
+
+        //in lieu of random piece generator
         if (nextPiece.isEmpty()) {
             Collections.addAll(nextPiece, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
             Collections.shuffle(nextPiece);
         }
+
         currPiece = nextPiece.get(0);
         nextPiece.remove(0);
     }
@@ -125,10 +131,18 @@ public class TetrisGame {
 
     private void attachToBoard() {
         for (Point p : tetrisPoints[currPiece][rotation]) {
-            board[point.x + p.x][point.y + p.y] = colorArray[currPiece];
+            int newX = point.x + p.x;
+            int newY = point.y + p.y;
+            if (newY == INIT_Y_POSITION){
+                isGameOver = true;
+                break;
+            }
+            board[newX][newY] = colorArray[currPiece];
         }
-        clearRows();
-        newPiece();
+        if (!isGameOver) {
+            clearRows();
+            newPiece();
+        }
     }
 
 
@@ -177,12 +191,15 @@ public class TetrisGame {
         }
     }
 
-
     public int getWidth() {
         return WIDTH;
     }
 
     public int getHeight() {
         return HEIGHT;
+    }
+
+    public boolean isGameOver(){
+        return isGameOver;
     }
 }
