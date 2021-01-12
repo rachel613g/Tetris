@@ -8,26 +8,28 @@ import java.util.concurrent.TimeUnit;
 
 
 public class TetrisFrame extends JFrame {
-    private TetrisGame tetris;
-    private TetrisView view;
+    private final TetrisGame tetris;
+    private final TetrisView view;
     private final TetrisKeyListener keyListener;
-    private ScheduledExecutorService scheduler;
     private ScheduledFuture<?> scheduledFuture;
+    private final ImageIcon icon;
 
     public TetrisFrame(TetrisGame tetrisGame, TetrisView tetrisView, TetrisKeyListener tetrisKeyListener){
         super();
         tetris = tetrisGame;
         view = tetrisView;
         keyListener = tetrisKeyListener;
+        icon = new ImageIcon(getClass().getResource("/TetrisIcon.png"));
 
         setUpFrame();
-        tetris.init();
+        tetris.startGame();
         scheduleDropShape();
     }
 
     private void setUpFrame() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("Tetris");
+        setIconImage(icon.getImage());
         setSize(350, 630);
         addKeyListener(keyListener);
         add(view);
@@ -40,11 +42,10 @@ public class TetrisFrame extends JFrame {
      */
     private void scheduleDropShape() {
         int delay = 500;
-        scheduler = Executors.newScheduledThreadPool(1);
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         final Runnable dropShapeTask = () -> {
             if(tetris.isGameOver()){
                 gameOver();
-                scheduledFuture.cancel(true);
             } else {
                 tetris.drop();
                 view.repaint();
@@ -54,10 +55,9 @@ public class TetrisFrame extends JFrame {
     }
 
     public void gameOver(){
-        JOptionPane jOPane = new JOptionPane();
-        jOPane.createDialog("Game Over :-(");
-        int answer = jOPane.showConfirmDialog(null, "Game Over.\n Would you like to play again?",
-                "Game Over.", JOptionPane.YES_NO_OPTION);
+        int answer = JOptionPane.showConfirmDialog(this, "Game Over.\n Would you like to play again?",
+                "Game Over.", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
+        scheduledFuture.cancel(true);
         if(answer == JOptionPane.YES_OPTION){
             startNewGame();
         }
@@ -67,10 +67,7 @@ public class TetrisFrame extends JFrame {
     }
 
     private void startNewGame() {
-        tetris = new TetrisGame();
-        view.setTetrisGameInstance(tetris);
-        keyListener.setTetrisGameInstance(tetris);
-        tetris.init();
+        tetris.startGame();
         view.repaint();
         scheduleDropShape();
     }
