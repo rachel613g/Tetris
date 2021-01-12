@@ -15,7 +15,7 @@ public class TetrisShapes {
     }
 
     private void createShapes() {
-        pointArray = new Point[][][]{//[x][y][r]
+        pointArray = new Point[][][]{//[shape][rotation][point array of points in shape for that rotation]
                 {
                         //J-SHAPE
                         {new Point(0, 1), new Point(1, 1), new Point(2, 1), new Point(2, 0)},
