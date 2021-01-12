@@ -54,10 +54,8 @@ public class TetrisFrame extends JFrame {
     }
 
     public void gameOver(){
-        JOptionPane jOPane = new JOptionPane();
-        jOPane.createDialog("Game Over :-(");
-        int answer = jOPane.showConfirmDialog(null, "Game Over.\n Would you like to play again?",
-                "Game Over.", JOptionPane.YES_NO_OPTION);
+        int answer = JOptionPane.showConfirmDialog(this, "Game Over.\n Would you like to play again?",
+                "Game Over", JOptionPane.YES_NO_OPTION);
         if(answer == JOptionPane.YES_OPTION){
             startNewGame();
         }
