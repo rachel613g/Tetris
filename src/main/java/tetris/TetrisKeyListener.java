@@ -36,7 +36,4 @@ public class TetrisKeyListener extends KeyAdapter {
         e.getComponent().repaint();
     }
 
-    public void setTetrisGameInstance(TetrisGame game) {
-       this.game =game;
-    }
 }

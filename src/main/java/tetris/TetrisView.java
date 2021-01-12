@@ -37,7 +37,4 @@ public class TetrisView extends JComponent {
         drawPiece(g);
     }
 
-    public void setTetrisGameInstance(TetrisGame game){
-        this.game = game;
-    }
 }
