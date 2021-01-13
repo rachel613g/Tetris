@@ -10,22 +10,23 @@ public class TetrisGame {
     TetrisShapes tetrisShapes = new TetrisShapes();
     Point[][][] tetrisPoints = tetrisShapes.getShapes();
 
-    Color sunset = new Color(250, 163, 152);
-    Color peach = new Color(250, 221, 152);
-    Color babyYellow = new Color(239, 250, 152);
-    Color mint = new Color(150, 255, 175);
-    Color teal = new Color(152, 250, 224);
-    Color skyBlue = new Color(152, 209, 250);
-    Color babyBlue = new Color(152, 174, 250);
-    Color lightBlue = new Color(74, 180, 255);
-    Color lavender = new Color(183, 152, 250);
-    Color babyPink = new Color(241, 207, 255);
-    Color background = new Color(7, 11, 59);
-    Color border = new Color(1, 12, 138);
+    private final Color sunset = new Color(250, 163, 152);
+    private final Color peach = new Color(250, 221, 152);
+    private final Color babyYellow = new Color(239, 250, 152);
+    private final Color mint = new Color(150, 255, 175);
+    private final Color teal = new Color(152, 250, 224);
+    private final Color skyBlue = new Color(152, 209, 250);
+    private final Color babyBlue = new Color(152, 174, 250);
+    private final Color lightBlue = new Color(74, 180, 255);
+    private final Color lavender = new Color(183, 152, 250);
+    private final Color babyPink = new Color(241, 207, 255);
+    private final Color background = new Color(7, 11, 59);
+    private final Color border = new Color(1, 12, 138);
 
     private final Color[] colorArray = {babyPink, mint, lightBlue, sunset, peach,
             babyYellow, teal, lavender, skyBlue, babyBlue};
 
+    //TODO: move point, currPiece and rotation to a different class
     private Point point;
     private int currPiece;
     private int rotation;
@@ -94,10 +95,17 @@ public class TetrisGame {
             Collections.shuffle(nextPiece);
         }
 
-        currPiece = nextPiece.get(0);
-        nextPiece.remove(0);
+        currPiece = nextPiece.remove(0);
     }
 
+    /**
+     *
+     * @param x current x of the piece
+     * @param y current y of the piece
+     * @param rotation current rotation of the piece
+     * @return whether there is no collision or not. If a collision happens, returns false.
+     * If a collision does not happen, returns true.
+     */
     private boolean noCollisionAt(int x, int y, int rotation) {
         for (Point p : tetrisPoints[currPiece][rotation]) {
             if (board[p.x + x][p.y + y] != background) {
@@ -107,9 +115,14 @@ public class TetrisGame {
         return true;
     }
 
+    /**
+     *
+     * @param rotateBy is either -1 or 1. If rotateBy is 1, it
+     * goes clockwise. If -1, then counter clockwise. If go clockwise at
+     * rotation 0, then it would be -1 == rotation 3
+     */
     public void rotate(int rotateBy) {
         int newRotation = (rotation + rotateBy) % 4;
-        //if go counter clockwise at position 0, then it would be -1 == position 3
         if (newRotation < 0) {
             newRotation = 3;
         }

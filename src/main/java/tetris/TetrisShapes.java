@@ -14,8 +14,14 @@ public class TetrisShapes {
         return pointArray;
     }
 
+    /**
+     * creates a 3D array of points. First D of array is an array of shapes.
+     * Second D is an array of the rotations for that specific shape.
+     * Third D is an array of points for a specific rotation.
+     * [shape][rotation][point array of points in shape for that rotation]
+     */
     private void createShapes() {
-        pointArray = new Point[][][]{//[shape][rotation][point array of points in shape for that rotation]
+        pointArray = new Point[][][]{
                 {
                         //J-SHAPE
                         {new Point(0, 1), new Point(1, 1), new Point(2, 1), new Point(2, 0)},
