@@ -2,11 +2,8 @@ package tetris;
 
 import java.awt.*;
 
-import static tetris.TetrisGame.INIT_X_POSITION;
-import static tetris.TetrisGame.INIT_Y_POSITION;
-
 public class CurrentPiece {
-    private Point point;
+    private final Point point;
     private int currPieceIndex;
     private int rotation;
 

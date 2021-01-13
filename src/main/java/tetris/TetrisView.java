@@ -6,6 +6,12 @@ import java.awt.*;
 public class TetrisView extends JComponent {
 
     TetrisGame game;
+    Grid grid;
+
+    public TetrisView(TetrisGame game, Grid grid) {
+        this.game = game;
+        this.grid = grid;
+    }
     CurrentPiece currentPiece;
 
     TetrisShapes tetrisShapes = new TetrisShapes();
@@ -13,13 +19,9 @@ public class TetrisView extends JComponent {
     public static final int BORDER_CELL_SIZE = 26;
     public static final int CELL_SIZE = 25;
 
-    public TetrisView(TetrisGame game) {
-        this.game = game;
-    }
-
     private void drawPiece(Graphics g) {
         currentPiece = game.getCurrentPiece();
-        g.setColor(game.getColorArray()[currentPiece.getCurrPieceIndex()]);
+        g.setColor(grid.getColorArray()[currentPiece.getCurrPieceIndex()]);
         for (Point p : point[currentPiece.getCurrPieceIndex()][currentPiece.getRotation()]) {
             g.fillRect(( currentPiece.getX() + p.x ) * BORDER_CELL_SIZE, (currentPiece.getY() + p.y) * BORDER_CELL_SIZE, CELL_SIZE, CELL_SIZE);
         }
@@ -27,10 +29,10 @@ public class TetrisView extends JComponent {
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.fillRect(0, 0, BORDER_CELL_SIZE * game.getWidth(), BORDER_CELL_SIZE * (game.getHeight()-1));
-        for (int i = 0; i < game.getWidth(); i++) {
-            for (int j = 0; j < game.getHeight()-1; j++) {
-                g.setColor(game.getBoard()[i][j]);        //null
+        g.fillRect(0, 0, BORDER_CELL_SIZE * grid.getWidth(), BORDER_CELL_SIZE * (grid.getHeight()-1));
+        for (int i = 0; i < grid.getWidth(); i++) {
+            for (int j = 0; j < grid.getHeight()-1; j++) {
+                g.setColor(grid.getBoard()[i][j]);
                 g.fillRect(BORDER_CELL_SIZE * i, BORDER_CELL_SIZE * j, CELL_SIZE, CELL_SIZE);
             }
         }

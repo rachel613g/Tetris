@@ -1,6 +1,5 @@
 package tetris;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
@@ -9,7 +8,7 @@ import static tetris.TetrisGame.INIT_Y_POSITION;
 
 public class CurrentPieceFactory {
     private final ArrayList<Integer> nextPiece = new ArrayList<>();
-    CurrentPiece currentPiece;
+    private CurrentPiece currentPiece;
 
     public CurrentPieceFactory() {
         createRandomCollection();
