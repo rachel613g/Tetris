@@ -2,7 +2,8 @@ package tetris;
 
 public class TetrisMain {
     public static void main(String[] args) {
-        TetrisGame tetris = new TetrisGame();
+        CurrentPieceFactory factory = new CurrentPieceFactory();
+        TetrisGame tetris = new TetrisGame(factory);
         TetrisView view = new TetrisView(tetris);
         TetrisKeyListener keyListener = new TetrisKeyListener(tetris);
         TetrisFrame frame = new TetrisFrame(tetris,view, keyListener);

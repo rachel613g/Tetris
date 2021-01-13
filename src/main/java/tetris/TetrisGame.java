@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class TetrisGame {
-
-
     TetrisShapes tetrisShapes = new TetrisShapes();
     Point[][][] tetrisPoints = tetrisShapes.getShapes();
 
@@ -26,11 +24,8 @@ public class TetrisGame {
     private final Color[] colorArray = {babyPink, mint, lightBlue, sunset, peach,
             babyYellow, teal, lavender, skyBlue, babyBlue};
 
-    //TODO: move point, currPiece and rotation to a different class
-    private Point point;
-    private int currPiece;
-    private int rotation;
-    private final ArrayList<Integer> nextPiece = new ArrayList<>();
+    private CurrentPieceFactory factory;
+    private CurrentPiece currentPiece;
     private int score;
     private boolean isGameOver;
     public static final int WIDTH = 13;
@@ -41,6 +36,11 @@ public class TetrisGame {
     public static final int INIT_Y_POSITION = 0;
     private final Color[][] board = new Color[WIDTH][HEIGHT];
 
+    public TetrisGame(CurrentPieceFactory currentPieceFactory){
+        factory = currentPieceFactory;
+        startGame();
+    }
+
     public Color[][] getBoard(){
         return board;
     }
@@ -49,16 +49,8 @@ public class TetrisGame {
         return colorArray;
     }
 
-    public int getCurrentPiece(){
-        return currPiece;
-    }
-
-    public int getRotation(){
-        return rotation;
-    }
-
-    public Point getPoint(){
-        return point;
+    public CurrentPiece getCurrentPiece(){
+        return currentPiece;
     }
 
     public int getScore(){
@@ -66,9 +58,7 @@ public class TetrisGame {
     }
 
     public void startGame() {
-        if(nextPiece.size() != 0){
-            nextPiece.clear();
-        }
+        factory.createRandomCollection();
         if(score != 0){
             score = 0;
         }
@@ -86,16 +76,7 @@ public class TetrisGame {
     }
 
     private void newPiece() {
-        point = new Point(INIT_X_POSITION, INIT_Y_POSITION);
-        rotation = 0;
-
-        //in lieu of random piece generator
-        if (nextPiece.isEmpty()) {
-            Collections.addAll(nextPiece, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9);
-            Collections.shuffle(nextPiece);
-        }
-
-        currPiece = nextPiece.remove(0);
+        currentPiece = factory.newInstance();
     }
 
     /**
@@ -107,7 +88,7 @@ public class TetrisGame {
      * If a collision does not happen, returns true.
      */
     private boolean noCollisionAt(int x, int y, int rotation) {
-        for (Point p : tetrisPoints[currPiece][rotation]) {
+        for (Point p : tetrisPoints[currentPiece.getCurrPieceIndex()][rotation]) {
             if (board[p.x + x][p.y + y] != background) {
                 return false;
             }
@@ -122,38 +103,38 @@ public class TetrisGame {
      * rotation 0, then it would be -1 == rotation 3
      */
     public void rotate(int rotateBy) {
-        int newRotation = (rotation + rotateBy) % 4;
+        int newRotation = (currentPiece.getRotation() + rotateBy) % 4;
         if (newRotation < 0) {
             newRotation = 3;
         }
-        if (noCollisionAt(point.x, point.y, newRotation)) {
-            rotation = newRotation;
+        if (noCollisionAt(currentPiece.getX(), currentPiece.getY(), newRotation)) {
+            currentPiece.setRotation(newRotation);
         }
     }
 
     public void move(int moveBy) {
-        if (noCollisionAt(point.x + moveBy, point.y, rotation)) {
-            point.x += moveBy;
+        if (noCollisionAt(currentPiece.getX()+ moveBy, currentPiece.getY(), currentPiece.getRotation())) {
+            currentPiece.setX(moveBy);
         }
     }
 
     public void drop() {
-        if (noCollisionAt(point.x, point.y + 1, rotation)) {
-            point.y += 1;
+        if (noCollisionAt(currentPiece.getX(), currentPiece.getY() + 1, currentPiece.getRotation())) {
+             currentPiece.setY(1);
         } else {
             attachToBoard();
         }
     }
 
     private void attachToBoard() {
-        for (Point p : tetrisPoints[currPiece][rotation]) {
-            int newX = point.x + p.x;
-            int newY = point.y + p.y;
+        for (Point p : tetrisPoints[currentPiece.getCurrPieceIndex()][currentPiece.getRotation()]) {
+            int newX = currentPiece.getX() + p.x;
+            int newY = currentPiece.getY() + p.y;
             if (newY == INIT_Y_POSITION + 1) {
                 isGameOver = true;
                 break;
             }
-            board[newX][newY] = colorArray[currPiece];
+            board[newX][newY] = colorArray[currentPiece.getCurrPieceIndex()];
         }
         if (!isGameOver) {
             clearRows();
