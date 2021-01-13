@@ -24,7 +24,17 @@ public class TetrisGame {
     public static final int INIT_X_POSITION = 6;
     public static final int INIT_Y_POSITION = 0;
 
+    public int getCurrentPiece(){
+        return currPiece;
+    }
 
+    public int getRotation(){
+        return rotation;
+    }
+
+    public Point getPoint(){
+        return point;
+    }
 
     public int getScore(){
         return score;
