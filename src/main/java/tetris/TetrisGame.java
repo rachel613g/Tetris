@@ -6,60 +6,25 @@ import java.util.Collections;
 
 public class TetrisGame {
 
+    private final Grid grid;
 
-    TetrisShapes tetrisShapes = new TetrisShapes();
-    Point[][][] tetrisPoints = tetrisShapes.getShapes();
-
-    private final Color sunset = new Color(250, 163, 152);
-    private final Color peach = new Color(250, 221, 152);
-    private final Color babyYellow = new Color(239, 250, 152);
-    private final Color mint = new Color(150, 255, 175);
-    private final Color teal = new Color(152, 250, 224);
-    private final Color skyBlue = new Color(152, 209, 250);
-    private final Color babyBlue = new Color(152, 174, 250);
-    private final Color lightBlue = new Color(74, 180, 255);
-    private final Color lavender = new Color(183, 152, 250);
-    private final Color babyPink = new Color(241, 207, 255);
-    private final Color background = new Color(7, 11, 59);
-    private final Color border = new Color(1, 12, 138);
-
-    private final Color[] colorArray = {babyPink, mint, lightBlue, sunset, peach,
-            babyYellow, teal, lavender, skyBlue, babyBlue};
-
-    //TODO: move point, currPiece and rotation to a different class
+    public TetrisGame(Grid grid){
+        this.grid = grid;
+    }
+    private final TetrisShapes tetrisShapes = new TetrisShapes();
+    private final Point[][][] tetrisPoints = tetrisShapes.getShapes();
     private Point point;
     private int currPiece;
     private int rotation;
     private final ArrayList<Integer> nextPiece = new ArrayList<>();
     private int score;
     private boolean isGameOver;
-    public static final int WIDTH = 13;
-    public static final int HEIGHT = 24;
     private final int RIGHT_BORDER = 12;
     private final int BOTTOM_BORDER = 22;
     public static final int INIT_X_POSITION = 6;
     public static final int INIT_Y_POSITION = 0;
-    private final Color[][] board = new Color[WIDTH][HEIGHT];
 
-    public Color[][] getBoard(){
-        return board;
-    }
 
-    public Color[] getColorArray(){
-        return colorArray;
-    }
-
-    public int getCurrentPiece(){
-        return currPiece;
-    }
-
-    public int getRotation(){
-        return rotation;
-    }
-
-    public Point getPoint(){
-        return point;
-    }
 
     public int getScore(){
         return score;
@@ -72,12 +37,12 @@ public class TetrisGame {
         if(score != 0){
             score = 0;
         }
-        for (int i = 0; i < WIDTH; i++) {
-            for (int j = 0; j < HEIGHT -1; j++) {
+        for (int i = 0; i < grid.getWidth(); i++) {
+            for (int j = 0; j < grid.getHeight() -1; j++) {
                 if (i == 0 || i == RIGHT_BORDER || j == BOTTOM_BORDER) {
-                    board[i][j] = border;
+                    grid.getBoard()[i][j] = grid.getBorder();
                 } else {
-                    board[i][j] = background;
+                    grid.getBoard()[i][j] = grid.getBackground();
                 }
             }
         }
@@ -106,9 +71,9 @@ public class TetrisGame {
      * @return whether there is no collision or not. If a collision happens, returns false.
      * If a collision does not happen, returns true.
      */
-    private boolean noCollisionAt(int x, int y, int rotation) {
+    public boolean noCollisionAt(int x, int y, int rotation) {
         for (Point p : tetrisPoints[currPiece][rotation]) {
-            if (board[p.x + x][p.y + y] != background) {
+            if (grid.getBoard()[p.x + x][p.y + y] != grid.getBackground()) {
                 return false;
             }
         }
@@ -153,7 +118,7 @@ public class TetrisGame {
                 isGameOver = true;
                 break;
             }
-            board[newX][newY] = colorArray[currPiece];
+            grid.getBoard()[newX][newY] = grid.getColorArray()[currPiece];
         }
         if (!isGameOver) {
             clearRows();
@@ -165,8 +130,8 @@ public class TetrisGame {
     public void deleteRow(int row) {
         //j first so col is first
         for (int j = row - 1; j > 0; j--) {
-            for (int i = 1; i < WIDTH; i++) {
-                board[i][j + 1] = board[i][j];
+            for (int i = 1; i < grid.getWidth(); i++) {
+                grid.getBoard()[i][j + 1] = grid.getBoard()[i][j];
             }
         }
     }
@@ -174,10 +139,10 @@ public class TetrisGame {
     public void clearRows() {
         boolean gap;
         int numClear = 0;
-        for (int j = HEIGHT - 3; j > 0; j--) {
+        for (int j = grid.getHeight() - 3; j > 0; j--) {
             gap = false;
-            for (int i = 1; i < WIDTH; i++) {
-                if (board[i][j] == background) {
+            for (int i = 1; i < grid.getWidth(); i++) {
+                if (grid.getBoard()[i][j] == grid.getBackground()) {
                     gap = true;
                     break;
                 }
@@ -205,14 +170,6 @@ public class TetrisGame {
                 score += 10;
                 break;
         }
-    }
-
-    public int getWidth() {
-        return WIDTH;
-    }
-
-    public int getHeight() {
-        return HEIGHT;
     }
 
     public boolean isGameOver(){
