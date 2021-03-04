@@ -45,7 +45,7 @@ public class TetrisFrame extends JFrame {
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         final Runnable dropShapeTask = () -> {
             if(tetris.isGameOver()){
-                gameOver();
+                displayGameOver();
             } else {
                 tetris.drop();
                 view.repaint();
@@ -54,7 +54,7 @@ public class TetrisFrame extends JFrame {
         scheduledFuture = scheduler.scheduleAtFixedRate(dropShapeTask, delay, delay, TimeUnit.MILLISECONDS);
     }
 
-    public void gameOver(){
+    public void displayGameOver(){
         int answer = JOptionPane.showConfirmDialog(this, "Game Over.\n Would you like to play again?",
                 "Game Over.", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, icon);
         scheduledFuture.cancel(true);
